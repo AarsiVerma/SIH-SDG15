@@ -1,0 +1,40 @@
+# Byte-order mark and OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Secrets and env
+.env
+.env.local
+.env.*.local
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Node
+node_modules/
+.next/
+out/
+frontend/coverage/
+
+# Models and large media
+models/*.onnx
+models/*.pt
+models/*.pth
+samples/videos/*.mp4
+samples/videos/*.avi
+evidence/
+
+# IDE
+.idea/
+.vscode/
+*.swp
