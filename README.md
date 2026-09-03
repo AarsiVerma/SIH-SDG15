@@ -5,6 +5,18 @@ AI-Powered Forest Intelligence & Early Warning System
 
 This repository currently holds the **engineering master plan**. Implementation follows atomic TODOs one at a time.
 
+## Frontend
+
+The Command Centre lives in [`frontend/`](./frontend) — Next.js App Router, TypeScript, Tailwind CSS v4, `motion` for animation.
+
+```bash
+cd frontend
+npm install
+npm run dev      # http://localhost:3000
+```
+
+`npm run build` runs the production build; `npx tsc --noEmit` type-checks without emitting.
+
 ## Planning documents
 
 | File | Contents |
