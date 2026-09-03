@@ -1,0 +1,112 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: vanraksha-db-prod
+    environment:
+      POSTGRES_DB: vanraksha
+      POSTGRES_USER: vanraksha
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    secrets:
+      - db_password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vanraksha -d vanraksha"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - vanraksha-net
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1G
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    container_name: vanraksha-api-prod
+    image: vanraksha/api:prod
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 1
+    environment:
+      - DATABASE_URL=postgresql+psycopg://vanraksha:vanraksha@db:5432/vanraksha
+      - PYTHONPATH=/app
+      - ENVIRONMENT=production
+    volumes:
+      - evidence:/app/evidence
+      - models:/app/models
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - vanraksha-net
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1G
+
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    container_name: vanraksha-web-prod
+    image: vanraksha/web:prod
+    command: npm run start
+    environment:
+      - NEXT_PUBLIC_API_URL=https://${DOMAIN:-localhost}/api/v1
+    depends_on:
+      - api
+    networks:
+      - vanraksha-net
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    container_name: vanraksha-worker-prod
+    image: vanraksha/api:prod
+    command: python -m app.worker
+    environment:
+      - DATABASE_URL=postgresql+psycopg://vanraksha:vanraksha@db:5432/vanraksha
+      - PYTHONPATH=/app
+      - ENVIRONMENT=production
+    volumes:
+      - evidence:/app/evidence
+      - models:/app/models
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - vanraksha-net
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1G
+
+volumes:
+  pgdata:
+  evidence:
+  models:
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+
+networks:
+  vanraksha-net:
+    driver: bridge

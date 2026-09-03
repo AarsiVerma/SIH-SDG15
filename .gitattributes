@@ -1,0 +1,53 @@
+# Ensure LF line endings for source files
+* text=auto eol=lf
+
+# Explicitly mark source files as text
+*.py text
+*.js text
+*.jsx text
+*.ts text
+*.tsx text
+*.json text
+*.yaml text
+*.yml text
+*.toml text
+*.md text
+*.txt text
+*.css text
+*.html text
+*.sh text
+*.ps1 text
+*.sql text
+*.dockerfile text
+Dockerfile text
+
+# Binary files
+*.mp4 binary
+*.mov binary
+*.avi binary
+*.mkv binary
+*.webm binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.otf binary
+*.pdf binary
+*.onnx binary
+*.pt binary
+*.pth binary
+*.weights binary
+*.bin binary
+*.pkl binary
+*.pickle binary
+*.npz binary
+*.npy binary
+
+# Documentation
+docs/** text
+README.md text

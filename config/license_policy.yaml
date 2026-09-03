@@ -1,0 +1,10 @@
+# License policy — default-deny AGPL
+allow_agpl: false
+forbidden_packages:
+  - ultralytics
+  - boxmot
+  - supervision  # BoxMOT/Ultralytics ecosystem, AGPL by default
+requires_review:
+  - react-leaflet
+  - ffmpeg
+  - megadetector

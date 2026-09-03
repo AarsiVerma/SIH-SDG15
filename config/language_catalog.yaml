@@ -1,0 +1,75 @@
+# VANRAKSHA AI — Language Catalog
+#
+# Single source of truth for user-facing copy. The system NEVER presents
+# inference as fact. Detection and inference layers describe what is observed;
+# risk layers request human verification. Forbidden terms must never appear in
+# automated copy (see docs/LANGUAGE.md).
+#
+# Layers:
+#   detection   -> what a model observed (never "poacher detected")
+#   inference   -> a synthesized observation (e.g. restricted-zone activity)
+#   risk        -> risk assessment, always requests verification when HIGH/CRITICAL
+#   verification-> human-confirmed fact
+
+forbidden_terms:
+  - poacher
+  - poaching
+  - criminal
+  - guilty
+  - smuggler
+  - terrorist
+
+disclaimers:
+  evidence: "Timestamped evidence supporting investigation, subject to applicable procedures."
+  wildlife: "Unusual movement detected; ranger verification recommended."
+  ai_outputs: "AI outputs require human verification."
+
+messages:
+  person_detected:
+    title: "Person detected"
+    body: "A person was observed in the camera view."
+    layer: detection
+  vehicle_detected:
+    title: "Vehicle detected"
+    body: "A vehicle was observed in the camera view."
+    layer: detection
+  animal_detected:
+    title: "Animal detected"
+    body: "Animal detected (species unverified)."
+    layer: detection
+  smoke_detected:
+    title: "Smoke detected"
+    body: "Possible smoke observed; ranger verification required."
+    layer: detection
+  fire_detected:
+    title: "Possible fire detected"
+    body: "Possible fire observed; ranger verification required."
+    layer: risk
+  suspicious_activity:
+    title: "Suspicious activity detected"
+    body: "Ranger verification required."
+    layer: risk
+  suspicious_activity_high_risk:
+    title: "High-risk suspicious activity detected"
+    body: "Ranger verification required."
+    layer: risk
+  wildlife_unusual_movement:
+    title: "Unusual wildlife movement detected"
+    body: "Unusual movement detected; ranger verification recommended."
+    layer: risk
+  camera_tampering_suspected:
+    title: "Camera tampering suspected"
+    body: "A possible camera obstruction or scene change was detected; verification required."
+    layer: risk
+  camera_failure_suspected:
+    title: "Camera failure suspected"
+    body: "The camera may have stopped reporting; verification required."
+    layer: risk
+  ranger_sos:
+    title: "Ranger emergency signal"
+    body: "A ranger has sent an emergency signal; immediate verification required."
+    layer: risk
+  restricted_zone_activity:
+    title: "Restricted-zone activity detected"
+    body: "Activity was observed in a restricted zone; ranger verification required."
+    layer: risk

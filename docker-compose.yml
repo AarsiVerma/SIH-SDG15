@@ -1,0 +1,89 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: vanraksha-db
+    environment:
+      POSTGRES_DB: vanraksha
+      POSTGRES_USER: vanraksha
+      POSTGRES_PASSWORD: vanraksha
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vanraksha -d vanraksha"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - vanraksha-net
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: vanraksha-api
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      - DATABASE_URL=postgresql+psycopg://vanraksha:vanraksha@db:5432/vanraksha
+      - PYTHONPATH=/app
+    volumes:
+      - ./backend:/app
+      - evidence:/app/evidence
+      - models:/app/models
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - vanraksha-net
+
+  web:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: vanraksha-web
+    command: npm run dev
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    networks:
+      - vanraksha-net
+
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: vanraksha-worker
+    command: python -m app.worker
+    environment:
+      - DATABASE_URL=postgresql+psycopg://vanraksha:vanraksha@db:5432/vanraksha
+      - PYTHONPATH=/app
+    volumes:
+      - ./backend:/app
+      - evidence:/app/evidence
+      - models:/app/models
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - vanraksha-net
+
+volumes:
+  pgdata:
+  evidence:
+  models:
+
+networks:
+  vanraksha-net:
+    driver: bridge
