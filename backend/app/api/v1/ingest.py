@@ -32,6 +32,9 @@ class JobRead(BaseModel):
     status: IngestJobStatus
     frames_processed: int
     detections_count: int
+    tracks_count: int
+    events_count: int
+    incidents_count: int
     error: str | None
     started_at: datetime | None
     completed_at: datetime | None

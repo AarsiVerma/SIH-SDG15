@@ -5,6 +5,7 @@ from datetime import datetime
 
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from app.models import Incident, IncidentEvent, IncidentStatusHistory, Event
 from app.models.enums import IncidentStatus, RiskLevel
@@ -44,17 +45,20 @@ class IncidentManager:
 
         # Check for existing open incident with same correlation family
         family = event.correlation_key.split(":")[1] if ":" in event.correlation_key else "unknown"
-        stmt = select(Incident).where(
+        
+        # Optimized query: join incidents with their events in single query
+        stmt = select(Incident).options(
+            selectinload(Incident.events).selectinload(IncidentEvent.event)
+        ).where(
             Incident.status.in_([IncidentStatus.NEW, IncidentStatus.ACKNOWLEDGED, IncidentStatus.INVESTIGATING, IncidentStatus.DISPATCHED]),
         ).order_by(Incident.created_at.desc())
         result = await db.execute(stmt)
         open_incidents = result.scalars().all()
 
         for inc in open_incidents:
-            # Simple family matching
-            inc_events = await db.execute(select(IncidentEvent).where(IncidentEvent.incident_id == inc.id))
-            for ie in inc_events.scalars():
-                ev = await db.get(Event, ie.event_id)
+            # Check if any linked event has same correlation family
+            for ie in inc.events:
+                ev = ie.event
                 if ev and ev.correlation_key.split(":")[1] == family:
                     inc.risk_score = max(inc.risk_score or 0, risk_score)
                     inc.risk_level = max(inc.risk_level or RiskLevel.LOW, risk_level, key=lambda x: x.value)

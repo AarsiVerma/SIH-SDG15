@@ -56,6 +56,16 @@ class Settings(BaseSettings):
 
     sync_url: str = ""
 
+    # Retention periods (days)
+    detection_retention_days: int = 30
+    track_points_retention_days: int = 30
+    event_retention_days: int = 90
+    camera_health_retention_days: int = 30
+    ranger_location_retention_days: int = 30
+    audit_log_retention_days: int = 365
+    notification_retention_days: int = 90
+    sync_outbox_retention_days: int = 30
+
 
 @lru_cache
 def get_settings() -> Settings:

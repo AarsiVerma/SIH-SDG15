@@ -79,6 +79,26 @@ services:
     networks:
       - vanraksha-net
 
+  # Retention cleanup service (runs daily)
+  retention:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: vanraksha-retention
+    command: python scripts/retention.py
+    environment:
+      - DATABASE_URL=postgresql+psycopg://vanraksha:vanraksha@db:5432/vanraksha
+      - PYTHONPATH=/app
+    volumes:
+      - ./backend:/app
+      - evidence:/app/evidence
+      - models:/app/models
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - vanraksha-net
+
 volumes:
   pgdata:
   evidence:

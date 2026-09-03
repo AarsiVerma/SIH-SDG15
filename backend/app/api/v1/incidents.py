@@ -1,4 +1,4 @@
-"""Incident API."""
+"""Incident API with RBAC."""
 from typing import Optional
 from uuid import UUID
 from datetime import datetime
@@ -6,8 +6,9 @@ from datetime import datetime
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.deps import PaginationParams, Pagination
+from app.api.deps import PaginationParams, Pagination, RequireViewer, RequireForestOfficer
 from app.db.session import get_db
+from app.models import User
 from app.schemas.incident import IncidentRead, IncidentDetail, TransitionRequest, AssignRequest, NoteRequest
 from app.schemas.common import Page
 from app.services.incident_service import (
@@ -26,6 +27,7 @@ async def list_incidents_endpoint(
     from_ts: Optional[datetime] = Query(None),
     to_ts: Optional[datetime] = Query(None),
     db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(RequireViewer),
 ):
     items, total = await list_incidents(
         db, pagination.limit, pagination.offset,
@@ -39,6 +41,7 @@ async def list_incidents_endpoint(
 async def get_incident_endpoint(
     incident_id: UUID,
     db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(RequireViewer),
 ):
     incident = await get_incident(db, incident_id)
     if not incident:
@@ -52,8 +55,9 @@ async def transition_incident_endpoint(
     incident_id: UUID,
     data: TransitionRequest,
     db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(RequireForestOfficer),
 ):
-    incident = await transition_incident(db, incident_id, data.to_status, data.note)
+    incident = await transition_incident(db, incident_id, data.to_status, data.note, actor_user_id=current_user.id)
     return incident
 
 
@@ -62,6 +66,7 @@ async def assign_incident_endpoint(
     incident_id: UUID,
     data: AssignRequest,
     db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(RequireForestOfficer),
 ):
     incident = await assign_incident(db, incident_id, data.user_id, data.ranger_id)
     return incident
@@ -72,8 +77,9 @@ async def add_note_endpoint(
     incident_id: UUID,
     data: NoteRequest,
     db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(RequireForestOfficer),
 ):
-    incident = await add_incident_note(db, incident_id, data.note)
+    incident = await add_incident_note(db, incident_id, data.note, actor_user_id=current_user.id)
     return incident
 
 
@@ -81,6 +87,7 @@ async def add_note_endpoint(
 async def get_history_endpoint(
     incident_id: UUID,
     db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(RequireViewer),
 ):
     from app.services.incident_service import get_incident_history
     history = await get_incident_history(db, incident_id)

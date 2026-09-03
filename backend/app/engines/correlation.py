@@ -1,9 +1,12 @@
 """Correlation and duplicate suppression."""
+import logging
 from typing import List
 from datetime import datetime
 
 from app.engines.event_types import EventCandidate
 from app.services.event_service import find_recent_by_correlation_key
+
+logger = logging.getLogger("app.engines.correlation")
 
 
 async def correlate(
@@ -28,6 +31,7 @@ async def correlate(
             existing.window_end = max(existing.window_end, c.window_end)
             existing.payload.update(c.payload)
             merged.append(existing)
+            logger.debug("Merged event into existing correlation key: %s", c.correlation_key)
         else:
             merged.append(c)
             seen_keys.add(c.correlation_key)

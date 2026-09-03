@@ -9,14 +9,15 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     libpq-dev \
-    && rm -rf /var/lib/apt/lists/*
+    libopencv-dev \
+    && rm -rf /var/lib/postgresql/data/*
 
 COPY pyproject.toml ./
 RUN pip install --no-cache-dir -e .
 
 COPY . .
 
-RUN mkdir -p /app/evidence /app/models
+RUN mkdir -p /app/evidence /app/models /app/samples
 
 EXPOSE 8000
 

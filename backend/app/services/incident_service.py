@@ -68,16 +68,17 @@ async def transition_incident(
     if not incident:
         raise AppError(ErrorCode.NOT_FOUND, "Incident not found")
 
+    from_status = incident.status
     # Validate transition (role check omitted for MVP)
-    if not can_transition(incident.status, to_status, actor_user_id):
-        raise AppError(ErrorCode.FORBIDDEN, f"Invalid transition: {incident.status} -> {to_status}")
+    if not can_transition(from_status, to_status, actor_user_id):
+        raise AppError(ErrorCode.FORBIDDEN, f"Invalid transition: {from_status} -> {to_status}")
 
     incident.status = to_status
     incident.updated_at = datetime.utcnow()
 
     db.add(IncidentStatusHistory(
         incident_id=incident.id,
-        from_status=incident.status,
+        from_status=from_status,
         to_status=to_status,
         actor_user_id=actor_user_id,
         note=note,

@@ -47,6 +47,9 @@ markers = [
 
 [project.scripts]
 vanraksha-migrate = "alembic.config:main"
+vanraksha-retention = "scripts.retention:main"
+vanraksha-worker = "app.worker:main"
+vanraksha-download-models = "scripts.download_models:main"
 
 [tool.ruff]
 line-length = 100
