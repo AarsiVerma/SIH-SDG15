@@ -1,24 +1,45 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  --foreground-rgb: 220, 235, 220;
-  --background-rgb: 13, 31, 13;
+@theme {
+  --color-paper: #F4F5F3;
+  --color-forest: #0f1710;
+  --color-forest-dark: #0B100C;
+  --color-forest-card: #131A14;
+  --color-ink: #181918;
+  --color-birch: #f1efe8;
+  --color-subtle: #6B7260;
+  --color-ochre: #c08a3e;
+  --color-line-light: #ddd8cc;
+  --color-line-dark: #2a352b;
+
+  --font-serif: var(--font-fraunces), Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+html {
+  background-color: var(--color-paper);
+  scroll-behavior: smooth;
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-rgb));
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-.leaflet-container {
-  background: #0d1f0d;
+.font-serif {
+  font-family: var(--font-serif);
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+.text-balance {
+  text-wrap: balance;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }
