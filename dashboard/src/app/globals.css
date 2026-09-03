@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-paper: #F4F5F3;
   --color-paper-card: #FFFFFF;
@@ -24,6 +26,11 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+}
+
+.dark body {
+  background-color: #000000;
+  color: #ffffff;
 }
 
 .font-serif {

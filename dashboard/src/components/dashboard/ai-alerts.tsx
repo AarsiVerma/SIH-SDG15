@@ -18,27 +18,27 @@ export function AIAlerts({ alerts }: AIAlertsProps) {
   );
 
   return (
-    <div className="flex h-full flex-col rounded-2xl border border-[#E2E0D8] bg-white p-6 shadow-2xs">
+    <div className="flex h-full flex-col rounded-2xl border border-[#E2E0D8] bg-white p-6 shadow-2xs dark:border-[#262626] dark:bg-[#0a0a0a]">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="font-serif text-lg font-normal text-[#181918]">
+          <h3 className="font-serif text-lg font-normal text-[#181918] dark:text-white">
             AI Alerts ({alerts.length})
           </h3>
-          <p className="text-xs text-[#6B7260]">
+          <p className="text-xs text-[#6B7260] dark:text-gray-400">
             Automated hazard & detection logs
           </p>
         </div>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-1.5 border-b border-[#E2E0D8] pb-3">
+      <div className="mt-4 flex flex-wrap gap-1.5 border-b border-[#E2E0D8] dark:border-[#262626] pb-3">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setSelectedCategory(cat)}
             className={`rounded-lg px-2.5 py-1 text-xs transition-all ${
               selectedCategory === cat
-                ? "bg-[#181918] text-white font-medium"
-                : "text-[#6B7260] hover:bg-[#F4F5F3]"
+                ? "bg-[#181918] text-white font-medium dark:bg-white dark:text-black"
+                : "text-[#6B7260] hover:bg-[#F4F5F3] dark:text-gray-400 dark:hover:bg-white/10"
             }`}
           >
             {cat}
@@ -53,10 +53,10 @@ export function AIAlerts({ alerts }: AIAlertsProps) {
           return (
             <div
               key={alert.id}
-              className="flex items-center justify-between rounded-xl border border-[#E2E0D8] bg-[#F8F8F6] p-3 transition-all hover:border-gray-300"
+              className="flex items-center justify-between rounded-xl border border-[#E2E0D8] bg-[#F8F8F6] p-3 transition-all hover:border-gray-300 dark:border-[#262626] dark:bg-[#111111] dark:hover:border-gray-600"
             >
               <div className="flex items-center gap-3">
-                <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg border border-[#E2E0D8]">
+                <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg border border-[#E2E0D8] dark:border-[#262626]">
                   <Image
                     src={alert.imageUrl}
                     alt={alert.title}
@@ -66,10 +66,10 @@ export function AIAlerts({ alerts }: AIAlertsProps) {
                 </div>
 
                 <div>
-                  <h4 className="text-xs font-semibold text-[#181918]">
+                  <h4 className="text-xs font-semibold text-[#181918] dark:text-white">
                     {alert.title}
                   </h4>
-                  <p className="text-[11px] text-[#6B7260]">
+                  <p className="text-[11px] text-[#6B7260] dark:text-gray-400">
                     {alert.zone} &bull; {alert.location}
                   </p>
                 </div>

@@ -26,13 +26,13 @@ export function ActivityCharts() {
   ];
 
   return (
-    <div className="flex h-full flex-col rounded-2xl border border-[#E2E0D8] bg-white p-6 shadow-2xs">
+    <div className="flex h-full flex-col rounded-2xl border border-[#E2E0D8] bg-white p-6 shadow-2xs dark:border-[#262626] dark:bg-[#0a0a0a]">
       <div className="flex items-center justify-between mb-2">
         <div>
-          <h3 className="font-serif text-lg font-normal text-[#181918]">
+          <h3 className="font-serif text-lg font-normal text-[#181918] dark:text-white">
             Activity Overview
           </h3>
-          <p className="text-xs text-[#6B7260]">
+          <p className="text-xs text-[#6B7260] dark:text-gray-400">
             Event breakdown & hourly trend
           </p>
         </div>
@@ -59,10 +59,10 @@ export function ActivityCharts() {
             </PieChart>
           </ResponsiveContainer>
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-            <span className="font-serif text-base font-semibold text-[#181918]">
+            <span className="font-serif text-base font-semibold text-[#181918] dark:text-white">
               128
             </span>
-            <span className="text-[9px] text-[#6B7260]">
+            <span className="text-[9px] text-[#6B7260] dark:text-gray-400">
               Events
             </span>
           </div>
@@ -76,11 +76,11 @@ export function ActivityCharts() {
                   className="h-2 w-2 rounded-full"
                   style={{ backgroundColor: stat.color }}
                 />
-                <span className="text-[11px] text-[#6B7260]">
+                <span className="text-[11px] text-[#6B7260] dark:text-gray-400">
                   {stat.name}
                 </span>
               </div>
-              <span className="font-medium text-[#181918] text-[11px]">
+              <span className="font-medium text-[#181918] text-[11px] dark:text-white">
                 {stat.count}
               </span>
             </div>
@@ -88,8 +88,8 @@ export function ActivityCharts() {
         </div>
       </div>
 
-      <div className="mt-4 pt-3 border-t border-[#E2E0D8]">
-        <p className="text-[10px] text-[#6B7260] mb-2">
+      <div className="mt-4 pt-3 border-t border-[#E2E0D8] dark:border-[#262626]">
+        <p className="text-[10px] text-[#6B7260] dark:text-gray-400 mb-2">
           Hourly Distribution (24h)
         </p>
         <div className="flex h-16 items-end gap-1 px-1">

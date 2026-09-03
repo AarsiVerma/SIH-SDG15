@@ -38,7 +38,7 @@ export function Sidebar({ activeTab, setActiveTab, isCollapsed }: SidebarProps) 
 
   return (
     <aside
-      className={`fixed left-0 top-0 z-40 flex h-screen flex-col justify-between border-r border-[#E2E0D8] bg-[#F4F5F3] text-[#181918] transition-all duration-300 ${
+      className={`fixed left-0 top-0 z-40 flex h-screen flex-col justify-between border-r border-[#E2E0D8] bg-[#F4F5F3] text-[#181918] transition-all duration-300 dark:border-[#262626] dark:bg-black dark:text-white ${
         isCollapsed ? "w-20" : "w-60"
       }`}
     >
@@ -50,10 +50,10 @@ export function Sidebar({ activeTab, setActiveTab, isCollapsed }: SidebarProps) 
           </div>
           {!isCollapsed && (
             <div>
-              <span className="font-serif text-base font-semibold tracking-tight text-[#181918]">
+              <span className="font-serif text-base font-semibold tracking-tight text-[#181918] dark:text-white">
                 VanRaksha
               </span>
-              <p className="text-[10px] tracking-wider text-[#6B7260] uppercase">
+              <p className="text-[10px] tracking-wider text-[#6B7260] dark:text-gray-400 uppercase">
                 Surveillance
               </p>
             </div>
@@ -70,8 +70,8 @@ export function Sidebar({ activeTab, setActiveTab, isCollapsed }: SidebarProps) 
                 onClick={() => setActiveTab(item.id)}
                 className={`flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-xs transition-all ${
                   isActive
-                    ? "bg-white text-[#181918] font-semibold border border-[#E2E0D8] shadow-2xs"
-                    : "text-[#6B7260] hover:bg-white/60 hover:text-[#181918]"
+                    ? "bg-white text-[#181918] font-semibold border border-[#E2E0D8] shadow-2xs dark:bg-[#111111] dark:text-white dark:border-[#262626]"
+                    : "text-[#6B7260] hover:bg-white/60 hover:text-[#181918] dark:text-gray-400 dark:hover:bg-white/10 dark:hover:text-white"
                 }`}
               >
                 <div className="flex items-center gap-3">
@@ -96,35 +96,35 @@ export function Sidebar({ activeTab, setActiveTab, isCollapsed }: SidebarProps) 
       {/* Bottom Profile & Status */}
       <div className="p-4 space-y-3">
         {!isCollapsed && (
-          <div className="rounded-xl border border-[#E2E0D8] bg-white p-3 text-xs shadow-2xs">
+          <div className="rounded-xl border border-[#E2E0D8] bg-white p-3 text-xs shadow-2xs dark:border-[#262626] dark:bg-[#111111]">
             <div className="flex items-center justify-between text-[11px]">
-              <span className="text-[#6B7260]">System Status</span>
-              <span className="flex items-center gap-1.5 font-medium text-emerald-700">
+              <span className="text-[#6B7260] dark:text-gray-400">System Status</span>
+              <span className="flex items-center gap-1.5 font-medium text-emerald-700 dark:text-emerald-400">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 animate-pulse" /> Active
               </span>
             </div>
 
             <div className="mt-3">
-              <div className="flex justify-between text-[11px] text-[#6B7260] mb-1">
+              <div className="flex justify-between text-[11px] text-[#6B7260] dark:text-gray-400 mb-1">
                 <span>Cameras Online</span>
-                <span className="font-semibold text-[#181918]">128 / 142</span>
+                <span className="font-semibold text-[#181918] dark:text-white">128 / 142</span>
               </div>
-              <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#F4F5F3]">
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#F4F5F3] dark:bg-[#262626]">
                 <div className="h-full w-[90%] rounded-full bg-[#C08A3E]" />
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-[10px] text-[#6B7260] pt-2.5 mt-2.5 border-t border-[#E2E0D8]">
+            <div className="flex items-center justify-between text-[10px] text-[#6B7260] dark:text-gray-400 pt-2.5 mt-2.5 border-t border-[#E2E0D8] dark:border-[#262626]">
               <span>AI Model</span>
-              <span className="flex items-center gap-1 text-[10px] font-medium text-[#181918]">
+              <span className="flex items-center gap-1 text-[10px] font-medium text-[#181918] dark:text-white">
                 2 min ago <RefreshCw className="h-2.5 w-2.5 text-[#C08A3E]" />
               </span>
             </div>
           </div>
         )}
 
-        <div className="flex items-center gap-3 rounded-lg border border-[#E2E0D8] bg-white p-2 shadow-2xs">
-          <div className="relative h-7 w-7 shrink-0 overflow-hidden rounded-full border border-[#E2E0D8]">
+        <div className="flex items-center gap-3 rounded-lg border border-[#E2E0D8] bg-white p-2 shadow-2xs dark:border-[#262626] dark:bg-[#111111]">
+          <div className="relative h-7 w-7 shrink-0 overflow-hidden rounded-full border border-[#E2E0D8] dark:border-[#262626]">
             <Image
               src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80&auto=format&fit=crop"
               alt="Forest Officer"
@@ -134,8 +134,8 @@ export function Sidebar({ activeTab, setActiveTab, isCollapsed }: SidebarProps) 
           </div>
           {!isCollapsed && (
             <div className="overflow-hidden text-xs">
-              <p className="truncate font-medium text-[#181918]">Forest Officer</p>
-              <p className="truncate text-[10px] text-[#6B7260]">Ranthambore</p>
+              <p className="truncate font-medium text-[#181918] dark:text-white">Forest Officer</p>
+              <p className="truncate text-[10px] text-[#6B7260] dark:text-gray-400">Ranthambore</p>
             </div>
           )}
         </div>

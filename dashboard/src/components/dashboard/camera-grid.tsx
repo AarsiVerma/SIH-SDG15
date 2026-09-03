@@ -19,13 +19,13 @@ export function CameraGrid({ cameras }: CameraGridProps) {
   });
 
   return (
-    <div className="rounded-2xl border border-[#E2E0D8] bg-white p-6 shadow-2xs">
+    <div className="rounded-2xl border border-[#E2E0D8] bg-white p-6 shadow-2xs dark:border-[#262626] dark:bg-[#0a0a0a]">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-5">
         <div>
-          <h3 className="font-serif text-lg font-normal text-[#181918]">
+          <h3 className="font-serif text-lg font-normal text-[#181918] dark:text-white">
             Live Camera Grid
           </h3>
-          <p className="text-xs text-[#6B7260]">
+          <p className="text-xs text-[#6B7260] dark:text-gray-400">
             Optical & thermal surveillance feeds
           </p>
         </div>
@@ -34,7 +34,7 @@ export function CameraGrid({ cameras }: CameraGridProps) {
           <select
             value={selectedZone}
             onChange={(e) => setSelectedZone(e.target.value)}
-            className="appearance-none rounded-xl border border-[#E2E0D8] bg-[#F4F5F3] px-4 py-1.5 pr-8 text-xs font-medium text-[#181918] focus:outline-none"
+            className="appearance-none rounded-xl border border-[#E2E0D8] bg-[#F4F5F3] px-4 py-1.5 pr-8 text-xs font-medium text-[#181918] focus:outline-none dark:border-[#262626] dark:bg-[#111111] dark:text-white"
           >
             <option>All Zones</option>
             <option>Zone 2A</option>

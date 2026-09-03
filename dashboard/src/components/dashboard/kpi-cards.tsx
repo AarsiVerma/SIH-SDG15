@@ -44,10 +44,10 @@ export function KPICards() {
         return (
           <div
             key={kpi.title}
-            className="rounded-2xl border border-[#E2E0D8] bg-white p-5 shadow-2xs transition-all hover:border-gray-300"
+            className="rounded-2xl border border-[#E2E0D8] bg-white p-5 shadow-2xs transition-all hover:border-gray-300 dark:border-[#262626] dark:bg-[#0a0a0a] dark:hover:border-gray-600"
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-[#6B7260]">
+              <span className="text-xs font-medium text-[#6B7260] dark:text-gray-400">
                 {kpi.title}
               </span>
               <Icon
@@ -57,11 +57,11 @@ export function KPICards() {
               />
             </div>
 
-            <p className="mt-3 font-serif text-3xl font-normal tracking-tight text-[#181918]">
+            <p className="mt-3 font-serif text-3xl font-normal tracking-tight text-[#181918] dark:text-white">
               {kpi.value}
             </p>
 
-            <p className="mt-1 text-[11px] text-[#6B7260]">
+            <p className="mt-1 text-[11px] text-[#6B7260] dark:text-gray-400">
               {kpi.subtext}
             </p>
           </div>
