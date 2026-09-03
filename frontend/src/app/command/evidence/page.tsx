@@ -63,7 +63,7 @@ function EvidenceViewer({ evidence, onClose }: { evidence: Evidence; onClose: ()
 
   useEffect(() => {
     if (!evidence) return;
-    const url = `${import.meta.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/v1/evidence/${evidence.id}/file`;
+    const url = `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/v1/evidence/${evidence.id}/file`;
     setImageUrl(url);
   }, [evidence.id]);
 

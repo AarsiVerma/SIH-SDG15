@@ -1,5 +1,7 @@
-"""Health endpoint tests."""
 import pytest
+pytestmark = pytest.mark.postgres
+
+"""Health endpoint tests."""
 from httpx import ASGITransport, AsyncClient
 
 from app.main import app

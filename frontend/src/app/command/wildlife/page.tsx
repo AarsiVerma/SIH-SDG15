@@ -24,7 +24,7 @@ export default function WildlifePage() {
         <span className="text-sm text-yellow-400 bg-yellow-900/30 px-2 py-1 rounded">
           Species unverified
         </span>
-      </h1>
+</div>
       <p className="text-gray-400">All species shown as "unknown" unless verified by classifier.</p>
 
       <div className="overflow-x-auto">

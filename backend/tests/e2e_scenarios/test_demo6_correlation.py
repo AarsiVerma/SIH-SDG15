@@ -1,5 +1,7 @@
-"""E2E test for Demo 6: Correlation (one incident, not five)."""
 import pytest
+pytestmark = pytest.mark.postgres
+
+"""E2E test for Demo 6: Correlation (one incident, not five)."""
 from datetime import datetime, timedelta
 
 from app.sources.base import Frame

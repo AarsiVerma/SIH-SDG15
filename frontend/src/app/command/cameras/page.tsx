@@ -65,7 +65,7 @@ function CameraViewer({ camera, onClose }: { camera: Camera; onClose: () => void
   useEffect(() => {
     if (!camera) return;
     setLoading(true);
-    fetch(`${import.meta.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/v1/cameras/${camera.id}/preview`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/v1/cameras/${camera.id}/preview`)
       .then(r => r.blob())
       .then(blob => URL.createObjectURL(blob))
       .then(setPreview)

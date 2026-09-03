@@ -1,5 +1,7 @@
-"""Tests for the correlation engine."""
 import pytest
+pytestmark = pytest.mark.postgres
+
+"""Tests for the correlation engine."""
 from datetime import datetime
 from uuid import uuid4
 

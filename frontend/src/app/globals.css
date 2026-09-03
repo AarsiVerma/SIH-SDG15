@@ -1,6 +1,8 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
+:root {
   --color-paper: #F4F5F3;
   --color-forest: #0f1710;
   --color-forest-dark: #0B100C;

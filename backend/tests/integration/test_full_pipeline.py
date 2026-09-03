@@ -1,5 +1,7 @@
-"""Full end-to-end integration test for the complete pipeline."""
 import pytest
+pytestmark = pytest.mark.postgres
+
+"""Full end-to-end integration test for the complete pipeline."""
 from datetime import datetime, timedelta
 from uuid import uuid4
 

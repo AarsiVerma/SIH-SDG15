@@ -1,5 +1,7 @@
-"""FileVideoSource tests."""
 import pytest
+pytestmark = pytest.mark.postgres
+
+"""FileVideoSource tests."""
 import cv2
 import numpy as np
 from pathlib import Path

@@ -1,15 +1,17 @@
-"""Camera API integration tests (run against real Postgres via docker-compose)."""
 import pytest
+
+pytestmark = pytest.mark.integration
+
+"""Camera API integration tests (run against real Postgres via docker-compose)."""
 from httpx import ASGITransport, AsyncClient
 
 from app.main import app
 
 
-pytestmark = pytest.mark.integration
-
-
-@pytest.mark.asyncio
-async def test_create_camera():
+@ pytest.mark.asyncio
+async def test_create_camera(postgres_available):
+    if not postgres_available:
+        pytest.skip("PostgreSQL not available")
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as ac:
         resp = await ac.post(
@@ -40,8 +42,10 @@ async def test_create_camera():
     assert resp.json()["total"] >= 1
 
 
-@pytest.mark.asyncio
-async def test_camera_code_unique():
+@ pytest.mark.asyncio
+async def test_camera_code_unique(postgres_available):
+    if not postgres_available:
+        pytest.skip("PostgreSQL not available")
     transport = ASGITransport(app=app)
     payload = {
         "name": "Test Camera 2",
@@ -55,8 +59,10 @@ async def test_camera_code_unique():
     assert r2.status_code == 409
 
 
-@pytest.mark.asyncio
-async def test_invalid_geojson_rejected():
+@ pytest.mark.asyncio
+async def test_invalid_geojson_rejected(postgres_available):
+    if not postgres_available:
+        pytest.skip("PostgreSQL not available")
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as ac:
         resp = await ac.post(

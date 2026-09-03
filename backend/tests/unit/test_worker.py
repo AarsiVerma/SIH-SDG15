@@ -1,5 +1,7 @@
-"""Tests for the worker module."""
 import pytest
+pytestmark = pytest.mark.postgres
+
+"""Tests for the worker module."""
 from unittest.mock import AsyncMock, MagicMock, patch
 from uuid import uuid4
 

@@ -1,5 +1,7 @@
-"""Tests for the incident manager."""
 import pytest
+pytestmark = pytest.mark.postgres
+
+"""Tests for the incident manager."""
 from datetime import datetime
 from uuid import uuid4
 

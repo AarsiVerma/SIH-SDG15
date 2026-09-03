@@ -1,5 +1,7 @@
-"""E2E test for Demo 3: Fire Detection."""
 import pytest
+pytestmark = pytest.mark.postgres
+
+"""E2E test for Demo 3: Fire Detection."""
 from datetime import datetime, timedelta
 
 from app.sources.base import Frame

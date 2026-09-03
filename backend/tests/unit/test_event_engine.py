@@ -1,5 +1,7 @@
-"""Tests for the event engine."""
 import pytest
+pytestmark = pytest.mark.postgres
+
+"""Tests for the event engine."""
 from datetime import datetime
 from uuid import uuid4
 

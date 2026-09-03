@@ -1,3 +1,6 @@
+import pytest
+pytestmark = pytest.mark.postgres
+
 """FrameSampler tests."""
 from datetime import datetime, timedelta
 from uuid import uuid4

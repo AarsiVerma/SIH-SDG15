@@ -116,12 +116,14 @@ export interface EventFactor {
   reason: string;
 }
 
+export type IncidentStatus = "NEW" | "ACKNOWLEDGED" | "INVESTIGATING" | "DISPATCHED" | "RESOLVED" | "CLOSED";
+
 export interface Incident {
   id: string;
   public_id: string;
   title: string;
   language_key: string;
-  status: "NEW" | "ACKNOWLEDGED" | "INVESTIGATING" | "DISPATCHED" | "RESOLVED" | "CLOSED";
+  status: IncidentStatus;
   risk_score: number | null;
   risk_level: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" | null;
   location: { type: "Point"; coordinates: [number, number] };
@@ -131,6 +133,7 @@ export interface Incident {
   updated_at: string;
   events: Event[];
   evidence: Evidence[];
+  factors: EventFactor[];
 }
 
 export interface IncidentDetail extends Incident {
@@ -172,6 +175,15 @@ export interface WildlifeObservation {
   location: { type: "Point"; coordinates: [number, number] };
 }
 
+export interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: UserRole;
+  is_active: boolean;
+  created_at: string;
+}
+
 export interface FireEvent {
   id: string;
   camera_id: string;
@@ -211,3 +223,5 @@ export interface TaxonomyClass {
   language_key: string | null;
   layer: string;
 }
+
+export type UserRole = "ADMIN" | "FOREST_OFFICER" | "RANGER" | "VIEWER";

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { api } from "@/lib/api/client";
 import { Incident, IncidentStatus } from "@/types/api";
-import { IncidentDetail } from "@/components/incidents/IncidentDetail";
+import IncidentDetail from "@/components/incidents/IncidentDetail";
 
 export default function IncidentsPage() {
   const [incidents, setIncidents] = useState<Incident[]>([]);

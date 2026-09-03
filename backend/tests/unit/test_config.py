@@ -4,6 +4,8 @@ from pathlib import Path
 
 import pytest
 
+pytestmark = pytest.mark.postgres
+
 from app.core.config import Settings, get_settings, check_secret_key
 
 

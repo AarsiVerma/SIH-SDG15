@@ -1,5 +1,7 @@
-"""Error handler tests."""
 import pytest
+pytestmark = pytest.mark.postgres
+
+"""Error handler tests."""
 from httpx import ASGITransport, AsyncClient
 
 from app.main import app

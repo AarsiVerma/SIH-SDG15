@@ -12,8 +12,10 @@ export class WSClient {
   private maxReconnectDelay = 30000;
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
   private connected = false;
+  private isBrowser: boolean;
 
   constructor(topics: string[] = ["incidents", "health", "sos", "events"]) {
+    this.isBrowser = typeof window !== "undefined";
     const base = process.env.NEXT_PUBLIC_API_URL?.replace("http", "ws") || "ws://localhost:8000";
     this.url = `${base}/api/v1/ws?topics=${topics.join(",")}`;
     this.topics = topics;
@@ -21,6 +23,10 @@ export class WSClient {
 
   connect(): Promise<void> {
     return new Promise((resolve, reject) => {
+      if (!this.isBrowser) {
+        resolve();
+        return;
+      }
       if (this.ws?.readyState === WebSocket.OPEN) {
         resolve();
         return;
@@ -85,8 +91,10 @@ export class WSClient {
 
   disconnect() {
     if (this.reconnectTimer) clearTimeout(this.reconnectTimer);
-    this.ws?.close();
-    this.ws = null;
+    if (this.isBrowser) {
+      this.ws?.close();
+      this.ws = null;
+    }
     this.connected = false;
   }
 

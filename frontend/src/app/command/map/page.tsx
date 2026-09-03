@@ -1,16 +1,25 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { useVanrakshaSocket } from "@/hooks/useVanrakshaSocket";
-import ForestMap from "@/components/map/ForestMap";
-import LayerToggle from "@/components/map/LayerToggle";
 import { fetchGeoJSON } from "@/lib/geo";
 import { FeatureCollection } from "@/lib/geo";
-import L from "leaflet";
+
+// Dynamically import Leaflet-dependent components with SSR disabled
+const ForestMap = dynamic(() => import("@/components/map/ForestMap").then((mod) => mod.default), {
+  ssr: false,
+  loading: () => <div className="flex h-full items-center justify-center bg-forest-900 text-gray-400">Loading map…</div>,
+});
+
+const LayerToggle = dynamic(() => import("@/components/map/LayerToggle").then((mod) => mod.default), {
+  ssr: false,
+  loading: () => null,
+});
 
 export default function MapPage() {
   const [layers, setLayers] = useState<Record<string, FeatureCollection>>({});
-  const [leafletMap, setLeafletMap] = useState<L.Map | null>(null);
+  const [leafletMap, setLeafletMap] = useState<any>(null);
 
   const { onIncidents, onHealth, onSOS, isConnected } = useVanrakshaSocket([
     "incidents",
@@ -55,7 +64,7 @@ export default function MapPage() {
     }).catch(console.error);
   }, []);
 
-  const handleMapReady = (map: L.Map) => {
+  const handleMapReady = (map: any) => {
     setLeafletMap(map);
   };
 
@@ -75,7 +84,7 @@ export default function MapPage() {
         </div>
       </div>
 
-      <LayerToggle map={leafletMap} />
+      <LayerToggle map={leafletMap} layers={layers} />
     </div>
   );
 }

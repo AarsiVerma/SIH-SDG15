@@ -2,15 +2,16 @@
 
 import { useState, useEffect } from "react";
 import { LAYER_CONFIGS, MapLayerConfig, createGeoJSONLayer } from "./layers";
-import { fetchGeoJSON } from "@/lib/geo";
+import { FeatureCollection } from "@/lib/geo";
 import L from "leaflet";
 
 interface LayerToggleProps {
   map: L.Map | null;
+  layers: Record<string, FeatureCollection>;
   onLayerSelect?: (layerId: string, feature: any) => void;
 }
 
-export default function LayerToggle({ map, onLayerSelect }: LayerToggleProps) {
+export default function LayerToggle({ map, layers, onLayerSelect }: LayerToggleProps) {
   const [visibleLayers, setVisibleLayers] = useState<Record<string, boolean>>(
     LAYER_CONFIGS.reduce((acc, c) => ({ ...acc, [c.id]: c.visible }), {})
   );
@@ -32,18 +33,18 @@ export default function LayerToggle({ map, onLayerSelect }: LayerToggleProps) {
       const config = LAYER_CONFIGS.find((c) => c.id === layerId);
       if (!config) return;
 
+      const geojson = layers[layerId];
+      if (!geojson) return;
+
       if (isVisible && !layerInstances[layerId]) {
-        // Load GeoJSON and add to map
-        fetchGeoJSON(config.endpoint).then((geojson) => {
-          const layer = createGeoJSONLayer(geojson, config);
-          if (config.onEachFeature) {
-            layer.on("click", (e: any) => {
-              onLayerSelect?.(layerId, e.layer.feature);
-            });
-          }
-          layer.addTo(map);
-          setLayerInstances((prev) => ({ ...prev, [layerId]: layer }));
-        });
+        const layer = createGeoJSONLayer(geojson, config);
+        if (config.onEachFeature) {
+          layer.on("click", (e: any) => {
+            onLayerSelect?.(layerId, e.layer.feature);
+          });
+        }
+        layer.addTo(map);
+        setLayerInstances((prev) => ({ ...prev, [layerId]: layer }));
       } else if (!isVisible && layerInstances[layerId]) {
         map.removeLayer(layerInstances[layerId]);
         setLayerInstances((prev) => {
@@ -53,7 +54,7 @@ export default function LayerToggle({ map, onLayerSelect }: LayerToggleProps) {
         });
       }
     });
-  }, [visibleLayers, map, layerInstances]);
+  }, [visibleLayers, map, layerInstances, layers]);
 
   return (
     <div className="bg-forest-800 rounded-lg p-4 border border-forest-700">

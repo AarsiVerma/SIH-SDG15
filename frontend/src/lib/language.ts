@@ -10,6 +10,8 @@ interface LanguageCatalog {
   };
 }
 
+type DisclaimerKey = keyof LanguageCatalog["disclaimers"];
+
 let catalogCache: LanguageCatalog | null = null;
 
 export async function fetchLanguageCatalog(): Promise<LanguageCatalog> {
@@ -18,7 +20,7 @@ export async function fetchLanguageCatalog(): Promise<LanguageCatalog> {
   const base = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
   const response = await fetch(`${base}/api/v1/language`);
   if (!response.ok) throw new Error("Failed to fetch language catalog");
-  catalogCache = await response.json();
+  catalogCache = (await response.json()) as LanguageCatalog;
   return catalogCache;
 }
 
@@ -28,7 +30,7 @@ export function getMessage(key: string): { title: string; body: string } | null 
   return msg ? { title: msg.title, body: msg.body } : null;
 }
 
-export function getDisclaimer(key: string): string | null {
+export function getDisclaimer(key: DisclaimerKey): string | null {
   if (!catalogCache) return null;
   return catalogCache.disclaimers[key] || null;
 }

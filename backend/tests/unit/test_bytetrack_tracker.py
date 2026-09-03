@@ -1,5 +1,8 @@
-"""Tests for the ByteTrack tracker."""
 import pytest
+
+pytestmark = pytest.mark.postgres
+
+"""Tests for the ByteTrack tracker."""
 from datetime import datetime, timedelta
 from uuid import uuid4
 import numpy as np

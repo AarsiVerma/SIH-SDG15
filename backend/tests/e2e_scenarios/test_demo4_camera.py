@@ -1,5 +1,7 @@
-"""E2E test for Demo 4: Camera Failure (health service)."""
 import pytest
+pytestmark = pytest.mark.postgres
+
+"""E2E test for Demo 4: Camera Failure (health service)."""
 from datetime import datetime, timedelta
 
 from app.services.health_service import classify_health

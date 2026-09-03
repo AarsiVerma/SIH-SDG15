@@ -1,5 +1,8 @@
-"""E2E test for Demo 1: Suspicious Activity."""
 import pytest
+
+pytestmark = pytest.mark.postgres
+
+"""E2E test for Demo 1: Suspicious Activity."""
 from datetime import datetime
 from uuid import uuid4
 
@@ -20,8 +23,10 @@ from app.core.config import get_settings
 
 
 @pytest.mark.asyncio
-async def test_demo1_suspicious_activity():
+async def test_demo1_suspicious_activity(postgres_available):
     """Full pipeline: detect -> track -> context -> event -> risk -> incident."""
+    if not postgres_available:
+        pytest.skip("PostgreSQL with PostGIS not available")
     settings = get_settings()
     detector = DummyDetector()
     tracker = build_tracker(settings)
@@ -30,7 +35,7 @@ async def test_demo1_suspicious_activity():
     risk_engine = RiskEngine()
     incident_manager = IncidentManager(settings.incident_min_level)
 
-    async for session in get_session():
+    async with get_session() as session:
         # Get demo camera
         camera = await session.execute(
             Camera.__table__.select().where(Camera.code == "CAM-GATE-N")

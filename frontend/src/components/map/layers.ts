@@ -1,4 +1,5 @@
 /** Map layer types and utilities. */
+import L from "leaflet";
 import { FeatureCollection } from "@/lib/geo";
 
 export interface MapLayerConfig {
@@ -111,14 +112,16 @@ export const LAYER_CONFIGS: MapLayerConfig[] = [
   },
 ];
 
-export function createGeoJSONLayer(geojson: FeatureCollection, config: MapLayerConfig): L.GeoJSON {
+export function createGeoJSONLayer(geojson: FeatureCollection, config: MapLayerConfig): L.GeoJSON<any> {
   return L.geoJSON(geojson, {
     pointToLayer: (feature, latlng) => {
       const style = config.style(feature);
       if ("radius" in style) {
         return L.circleMarker(latlng, style as L.CircleMarkerOptions);
       }
-      return L.polygon(latlng, style as L.PolylineOptions);
+      // For polygons, use geometry coordinates
+      const coords = (feature.geometry as any).coordinates;
+      return L.polygon(coords, style as L.PolylineOptions);
     },
     style: (feature) => config.style(feature),
     onEachFeature: config.onEachFeature,

@@ -1,5 +1,7 @@
-"""E2E test for Demo 7: Offline Sync."""
 import pytest
+pytestmark = pytest.mark.postgres
+
+"""E2E test for Demo 7: Offline Sync."""
 from uuid import uuid4
 from datetime import datetime
 
